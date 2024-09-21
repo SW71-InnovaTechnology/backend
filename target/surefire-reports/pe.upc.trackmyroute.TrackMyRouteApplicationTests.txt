@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: pe.upc.trackmyroute.TrackMyRouteApplicationTests
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 7.637 s -- in pe.upc.trackmyroute.TrackMyRouteApplicationTests
