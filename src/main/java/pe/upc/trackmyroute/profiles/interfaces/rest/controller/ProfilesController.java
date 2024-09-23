@@ -52,4 +52,6 @@ public class ProfilesController {
 
         return new ResponseEntity<ProfileResource>(profileResource, HttpStatus.CREATED);
     }
+
+
 }
