@@ -1,19 +1,20 @@
 package pe.upc.trackmyroute.iam.interfaces.rest;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import pe.upc.trackmyroute.iam.domain.model.commands.DeleteUserCommand;
 import pe.upc.trackmyroute.iam.domain.model.queries.GetAllUsersQuery;
 import pe.upc.trackmyroute.iam.domain.model.queries.GetUserByIdQuery;
+import pe.upc.trackmyroute.iam.domain.services.UserCommandService;
 import pe.upc.trackmyroute.iam.domain.services.UserQueryService;
 import pe.upc.trackmyroute.iam.interfaces.rest.resources.UserResource;
 import pe.upc.trackmyroute.iam.interfaces.rest.transform.UserResourceFromEntityAssembler;
 
 import java.util.List;
+import java.util.Optional;
 
 
 /**
@@ -27,9 +28,11 @@ import java.util.List;
 @Tag(name = "Users", description = "User Management Endpoints")
 public class UsersController {
     private final UserQueryService userQueryService;
+    private final UserCommandService userCommandService;
 
-    public UsersController(UserQueryService userQueryService) {
+    public UsersController(UserQueryService userQueryService, UserCommandService userCommandService) {
         this.userQueryService = userQueryService;
+        this.userCommandService = userCommandService;
     }
 
     /**
@@ -61,5 +64,14 @@ public class UsersController {
         }
         var userResource = UserResourceFromEntityAssembler.toResourceFromEntity(user.get());
         return ResponseEntity.ok(userResource);
+    }
+
+    @DeleteMapping(value = "/{username}")
+    public ResponseEntity<UserResource> deleteUser(@PathVariable String username) {
+        var deleteUserCommand = new DeleteUserCommand(username);
+        var user = userCommandService.handle(deleteUserCommand);
+
+        var resource = UserResourceFromEntityAssembler.toResourceFromEntity(user.get());
+        return new ResponseEntity<UserResource>(resource, HttpStatus.ACCEPTED);
     }
 }

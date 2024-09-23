@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import pe.upc.trackmyroute.iam.application.internal.outboundservices.hashing.HashingService;
 import pe.upc.trackmyroute.iam.application.internal.outboundservices.tokens.TokenService;
 import pe.upc.trackmyroute.iam.domain.model.aggregates.User;
+import pe.upc.trackmyroute.iam.domain.model.commands.DeleteUserCommand;
 import pe.upc.trackmyroute.iam.domain.model.commands.SignInCommand;
 import pe.upc.trackmyroute.iam.domain.model.commands.SignUpCommand;
 import pe.upc.trackmyroute.iam.domain.model.entities.Role;
@@ -63,5 +64,17 @@ public class UserCommandServiceImpl implements UserCommandService {
         var token = tokenService.generateToken(user.get().getUsername());
 
         return Optional.of(ImmutablePair.of(user.get(), token));
+    }
+
+    @Override
+    public Optional<User> handle(DeleteUserCommand command) {
+        var user = userRepository.findByUsername(command.username());
+        if(user.isEmpty()) throw new RuntimeException("Username not found");
+
+        user.get().getRoles().clear();
+        userRepository.save(user.get());
+
+        userRepository.delete(user.get());
+        return user;
     }
 }
