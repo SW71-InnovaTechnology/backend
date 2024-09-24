@@ -18,6 +18,10 @@ public class AuditableAbstractAggregateRoot<T extends AbstractAggregateRoot<T>> 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     /*
     @Getter
     @CreatedDate
