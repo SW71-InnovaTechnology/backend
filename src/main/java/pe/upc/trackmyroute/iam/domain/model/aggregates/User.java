@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 import pe.upc.trackmyroute.iam.domain.model.entities.Role;
 import pe.upc.trackmyroute.shared.domain.model.aggregate.AuditableAbstractAggregateRoot;
+import pe.upc.trackmyroute.profiles.domain.model.aggregates.Profile;
 
 import java.util.HashSet;
 import java.util.List;
@@ -32,6 +33,9 @@ public class User extends AuditableAbstractAggregateRoot<User> {
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     private Set<Role> roles;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private Profile profile;
 
     public User() { this.roles = new HashSet<>(); }
 

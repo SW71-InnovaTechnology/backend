@@ -12,6 +12,7 @@ import pe.upc.trackmyroute.iam.domain.services.UserCommandService;
 import pe.upc.trackmyroute.iam.domain.services.UserQueryService;
 import pe.upc.trackmyroute.iam.interfaces.rest.resources.UserResource;
 import pe.upc.trackmyroute.iam.interfaces.rest.transform.UserResourceFromEntityAssembler;
+import pe.upc.trackmyroute.profiles.domain.services.ProfileService;
 
 import java.util.List;
 import java.util.Optional;
@@ -29,10 +30,12 @@ import java.util.Optional;
 public class UsersController {
     private final UserQueryService userQueryService;
     private final UserCommandService userCommandService;
+    private final ProfileService profileService;
 
-    public UsersController(UserQueryService userQueryService, UserCommandService userCommandService) {
+    public UsersController(UserQueryService userQueryService, UserCommandService userCommandService, ProfileService profileService) {
         this.userQueryService = userQueryService;
         this.userCommandService = userCommandService;
+        this.profileService = profileService;
     }
 
     /**
@@ -74,4 +77,8 @@ public class UsersController {
         var resource = UserResourceFromEntityAssembler.toResourceFromEntity(user.get());
         return new ResponseEntity<UserResource>(resource, HttpStatus.ACCEPTED);
     }
+
+
+
+
 }

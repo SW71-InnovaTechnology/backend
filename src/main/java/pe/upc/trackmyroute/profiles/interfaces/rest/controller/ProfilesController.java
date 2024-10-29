@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import pe.upc.trackmyroute.profiles.domain.model.queries.GetProfileByIdQuery;
 import pe.upc.trackmyroute.profiles.domain.services.ProfileCommandService;
 import pe.upc.trackmyroute.profiles.domain.services.ProfileQueryService;
+import pe.upc.trackmyroute.profiles.domain.services.ProfileService;
 import pe.upc.trackmyroute.profiles.interfaces.rest.resources.CreateProfileResource;
 import pe.upc.trackmyroute.profiles.interfaces.rest.resources.ProfileResource;
 import pe.upc.trackmyroute.profiles.interfaces.rest.transform.CreateProfileCommandFromResourceAssembler;
@@ -26,10 +27,12 @@ public class ProfilesController {
 
     private final ProfileQueryService profileQueryService;
     private final ProfileCommandService profileCommandService;
+    private final ProfileService profileService;
 
-    public ProfilesController(ProfileQueryService profileQueryService, ProfileCommandService profileCommandService) {
+    public ProfilesController(ProfileQueryService profileQueryService, ProfileCommandService profileCommandService, ProfileService profileService) {
         this.profileQueryService = profileQueryService;
         this.profileCommandService = profileCommandService;
+        this.profileService = profileService;
     }
 
     @GetMapping("/{profileId}")
@@ -39,18 +42,6 @@ public class ProfilesController {
         if (profile.isEmpty()) return ResponseEntity.badRequest().build();
 
         return ResponseEntity.ok(ProfileResourceFromEntityAssembler.transformResourceFromEntity(profile.get()));
-    }
-
-    @PostMapping
-    public ResponseEntity<ProfileResource> createProfile(@RequestBody CreateProfileResource resource) {
-        var createProfileCommand = CreateProfileCommandFromResourceAssembler.toCommandFromResource(resource);
-        var profile = profileCommandService.handle(createProfileCommand);
-
-        if (profile.isEmpty()) return ResponseEntity.badRequest().build();
-
-        var profileResource = ProfileResourceFromEntityAssembler.transformResourceFromEntity(profile.get());
-
-        return new ResponseEntity<ProfileResource>(profileResource, HttpStatus.CREATED);
     }
 
 
