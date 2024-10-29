@@ -7,8 +7,8 @@ public record CreateProfileCommand(
         @NotBlank String firstName,
         @NotBlank String lastName,
         @Email String email,
-        @NotBlank String type,
-        @NotBlank String password,
+        String type,
+        String password,
         String transportCompany
 ) {
 

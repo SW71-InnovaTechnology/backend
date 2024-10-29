@@ -19,8 +19,7 @@ import pe.upc.trackmyroute.iam.interfaces.rest.transform.SignInCommandFromResour
 import pe.upc.trackmyroute.iam.interfaces.rest.transform.SignUpCommandFromResourceAssembler;
 import pe.upc.trackmyroute.iam.interfaces.rest.transform.UserResourceFromEntityAssembler;
 import pe.upc.trackmyroute.profiles.domain.model.aggregates.Profile;
-import pe.upc.trackmyroute.profiles.domain.model.valueobjects.EmailAddress;
-import pe.upc.trackmyroute.profiles.domain.model.valueobjects.PersonName;
+import pe.upc.trackmyroute.profiles.domain.model.valueobjects.*;
 import pe.upc.trackmyroute.profiles.domain.services.ProfileService;
 
 @RestController
@@ -80,6 +79,10 @@ public class AuthenticationController {
         // Establecer valores predeterminados para el perfil
         defaultProfile.setName(new PersonName("Nombre Predeterminado", "Apellido Predeterminado")); // Cambia según sea necesario
         defaultProfile.setEmail(new EmailAddress("ejemplo@correo.com")); // Cambia según sea necesario
+        defaultProfile.setPassword(new Password("Por implementar"));
+        defaultProfile.setTransportCompany(new TransportCompany("Por implementar"));
+        defaultProfile.setUserType(new UserType("Por implementar"));
+
 
         profileService.saveProfile(defaultProfile);
     }

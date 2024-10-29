@@ -44,9 +44,9 @@ public class Profile extends AuditableAbstractAggregateRoot<Profile> {
         this.user = user;
         this.name = new PersonName("Nombre", "Apellido"); // Valores predeterminados
         this.email = new EmailAddress("ejemplo@correo.com"); // Valores predeterminados
-        this.password = new Password(""); // Cambia esto si es necesario
-        this.transportCompany = new TransportCompany(""); // Cambia esto si es necesario
-        this.userType = new UserType(""); // Cambia esto si es necesario
+        this.password = new Password("Falta implementar"); // Cambia esto si es necesario
+        this.transportCompany = new TransportCompany("Falta implementar"); // Cambia esto si es necesario
+        this.userType = new UserType("Falta implementar"); // Cambia esto si es necesario
     }
 
     public Profile(CreateProfileCommand command){
@@ -59,7 +59,7 @@ public class Profile extends AuditableAbstractAggregateRoot<Profile> {
 
     public String getFullName() {return this.name.getFullName();}
     public String getEmail() {return this.email.getEmailAddress();}
-    public String getPassword() {return this.password.password();}
-    public String getTransportCompany() {return this.transportCompany.getTransportCompany();}
-    public String getUserType() {return this.userType.getType();}
+    public String getPassword() { return this.password != null ? this.password.password() : "defaultPassword";}
+    public String getTransportCompany() {return this.transportCompany != null ? this.transportCompany.getTransportCompany() : "defaultTransportCompany";}
+    public String getUserType() { return userType != null ? userType.getType() : "defaultType"; }
 }
