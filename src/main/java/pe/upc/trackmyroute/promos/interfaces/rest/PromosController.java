@@ -48,8 +48,8 @@ public class PromosController {
         return new ResponseEntity<PromoResource>(promoResource, HttpStatus.CREATED);
     }
 
-    @DeleteMapping
-    public ResponseEntity<PromoResource> deletePromo(@RequestParam Long promoId) {
+    @DeleteMapping("/{promoId}")
+    public ResponseEntity<PromoResource> deletePromo(@PathVariable Long promoId) {
         var deletePromoCommand = new DeletePromoCommand(promoId);
         var promo = promoCommandService.handle(deletePromoCommand);
 
