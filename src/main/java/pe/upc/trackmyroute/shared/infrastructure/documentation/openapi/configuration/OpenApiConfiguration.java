@@ -39,6 +39,7 @@ public class OpenApiConfiguration {
                                         .scheme("bearer")
                                         .bearerFormat("JWT")));
 
+        openApi.servers(List.of(new Server().url("https://backend-production-862f.up.railway.app")));
         return openApi;
     }
 }
